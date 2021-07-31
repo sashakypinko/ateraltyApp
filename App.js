@@ -1,21 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useEffect} from 'react';
+import {Provider} from "react-redux";
+import {Provider as PaperProvider} from "react-native-paper";
+import NumberDetectionTask from "./NumberDetection";
+import initStore from './src/store';
+import Main from "./src/components/main";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const store = initStore();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+
+    useEffect(() => {
+        NumberDetectionTask.startService();
+    }, []);
+
+    return (
+        <PaperProvider>
+            <Provider store={store}>
+                <Main/>
+            </Provider>
+        </PaperProvider>
+    );
+};
+
+export default App;
